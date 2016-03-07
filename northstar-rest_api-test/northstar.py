@@ -75,7 +75,7 @@ def lsp_search (args) :
         dictdumper (res)
 
 def del_lsp (args) :
-	# del-lsp lspIndex 
+	# del_lsp lspIndex 
 	try :
 		(lsp_del, lspIndex) = args 
 	except :
