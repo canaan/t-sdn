@@ -15,11 +15,11 @@ authkey = ('admin', 'admin')
 #passwd = 'admin'
 
 def dictdumper (dic) :
-    print json.dumps (dic, sort_keys = True, indent = 4)
+	print json.dumps (dic, sort_keys = True, indent = 4)
 
 def error_exit (estr, code) :
-    print estr
-    sys.exit (code)
+	print estr
+	sys.exit (code)
 
 def northstar_api (suffix):
 	r = requests.get (urlprefix + suffix, headers = headers, auth = authkey, verify = False)
@@ -75,7 +75,7 @@ def lsp_search (args) :
         dictdumper (res)
 
 def del_lsp (args) :
-    # del-vbr vtnname vbrname
+	# del-vbr vtnname vbrname
 	try :
 		(lsp_del, lspIndex) = args 
 	except :
