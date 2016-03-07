@@ -1,32 +1,35 @@
 #!/bin/sh
 
 import sys
-import argparse
-import pprint
+#import argparse
+#import pprint
 import requests
 import json
 from copy import deepcopy
 
-url = "http://nstar1:8091/NorthStar/API/v1/tenant/1/topology/1/te-lsps"
+#url = "http://nstar1:8091/NorthStar/API/v1/tenant/1/topology/1/te-lsps"
 urlprefix = "http://nstar1:8091"
 headers = {'content-type': 'application/json'}
-token = "+c2BEU0I0ydaVBFTpijNRWp1YQsw/pm+XpKa4q40zW4="
+#token = "+c2BEU0I0ydaVBFTpijNRWp1YQsw/pm+XpKa4q40zW4="
 authkey = ('admin', 'admin')
-user = 'admin'
-passwd = 'admin'
+#user = 'admin'
+#passwd = 'admin'
+
+def dictdumper (dic) :
+    print json.dumps (dic, sort_keys = True, indent = 4)
 
 def error_exit (estr, code) :
     print estr
     sys.exit (code)
 
 def northstar_api (suffix):
-	r = requests.get (urlprefix + suffix, auth = authkey, verify = False)
+	r = requests.get (urlprefix + suffix, headers = headers, auth = authkey, verify = False)
 	if r.status_code != 200 :
 		error_exit ("Error %d: %s" % (r.status_code, r.text), r.status_code)
 	return r.json ()
 
 def northstar_api_no_data_put (suffix) :
-	r = requests.put (urlprefix + suffix, auth = authkey, verify = False)
+	r = requests.put (urlprefix + suffix, headers = headers, auth = authkey, verify = False)
 	if r.status_code != 200 :
 		error_exit ("Error %d: %s" % (r.status_code, r.text), r.status_code)
 	return r.text
@@ -44,6 +47,27 @@ def northstar_api_put (suffix, dictdata) :
 	if r.status_code != 200 :
 		error_exit ("Error %d: %s" % (r.status_code, r.text), r.status_code)
 	return r.text
+
+def get_topology (args) :
+        suffix = "/NorthStar/API/v1/tenant/1/topology"
+        res = northstar_api (suffix)
+        dictdumper (res)
+
+def lsp_list (args) :
+	suffix = "/NorthStar/API/v1/tenant/1/topology/1/te-lsps" 
+	res = northstar_api (suffix)
+	dictdumper (res)
+
+def nodes_list (args) :
+        suffix = "/NorthStar/API/v1/tenant/1/topology/1/nodes"
+        res = northstar_api (suffix)
+        dictdumper (res)
+
+def links_list (args) :
+        suffix = "/NorthStar/API/v1/tenant/1/topology/1/links"
+        res = northstar_api (suffix)
+        dictdumper (res)
+
 
 def create_lsp(args):
 	# create_lsp lsp_name From_ipadd To_ipadd Bandwidth
@@ -109,6 +133,7 @@ def explicit_lsp(args):
 
 
 def usage ():
+	print " lsp_list : Get LSP list"
 	print " create_lsp [LSP name] [From] [To] [Bandwidth] : create LSP without explicit route"
 	print " explicit_lsp [LSP name] [From] [To] [via] [Bandwidth] : create LSP with explicit route"
 
@@ -122,6 +147,10 @@ def main():
 		error_exit ("invalid command", -1)
 
 	commands = {
+		"get_topology" : get_topology,
+		"links_list" : links_list,
+		"nodes_list" : nodes_list,
+		"lsp_list" : lsp_list,
 		"create_lsp" : create_lsp,
 		"explicit_lsp": explicit_lsp,
 	}
