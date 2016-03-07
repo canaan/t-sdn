@@ -1,0 +1,12 @@
+{
+    "lspIndex": 31,
+    "name": "Rest_LSP_1",
+    "from": {"topoObjectType": "ipv4","address": "62.0.0.101" },
+    "to": {"topoObjectType": "ipv4","address": "62.0.0.103"  },
+    "pathType": "primary",
+    "plannedProperties": {
+	"bandwidth": "15M",
+	"setupPriority": 7,
+	"holdingPriority": 7
+    }
+}

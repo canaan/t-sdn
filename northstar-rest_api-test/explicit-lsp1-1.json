@@ -1,0 +1,15 @@
+{
+    "name": "REST_LPS_with_explicit_route",
+    "from": {"topoObjectType": "ipv4","address": "10.255.255.5"},
+    "to":   {"topoObjectType": "ipv4","address": "10.255.255.6"},
+    "plannedProperties": {
+       "bandwidth": 10000000,
+       "setupPriority": 7,
+       "holdingPriority": 7,
+       "ero" : [
+         {"topoObjectType": "ipv4","address": "10.255.255.2","loose": false},
+         {"topoObjectType": "ipv4","address": "10.255.255.3","loose": false},
+         {"topoObjectType": "ipv4","address": "10.255.255.4","loose": true}
+       ]
+    }
+}

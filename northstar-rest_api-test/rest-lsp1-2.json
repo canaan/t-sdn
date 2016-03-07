@@ -1,0 +1,16 @@
+{
+    "name": "RestLSP3",
+    "from": {
+	"topoObjectType": "ipv4",
+	"address": "10.255.255.6"
+    },
+    "to": {
+	"topoObjectType": "ipv4",
+	"address": "10.255.255.5"
+    },
+    "plannedProperties": {
+	"bandwidth": "100M",
+	"setupPriority": 7,
+	"holdingPriority": 7
+    }
+}

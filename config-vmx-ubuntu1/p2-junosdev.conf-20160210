@@ -1,0 +1,56 @@
+##############################################################
+#
+#  vmx-junos-dev.conf
+#  - Config file for junos device bindings.
+#  - Uses YAML syntax. 
+#  - Leave a space after ":" to specify the parameter value.
+#  - For physical NIC, set the 'type' as 'host_dev'
+#  - For junos devices, set the 'type' as 'junos_dev' and
+#    set the mandatory parameter 'vm-name' to the name of
+#    the vPFE where the device exists
+#  - For bridge devices, set the 'type' as 'bridge_dev'
+#
+##############################################################
+interfaces :
+
+     - link_name  : p3-p2
+       mtu        : 1500
+       endpoint_1 : 
+         - type        : junos_dev
+           vm_name     : p2 
+           dev_name    : ge-0/0/0
+       endpoint_2 :
+         - type        : host_dev
+           dev_name    : p43p1
+
+
+     - link_name  : p1-p2
+       mtu        : 1500
+       endpoint_1 : 
+         - type        : junos_dev
+           vm_name     : p2
+           dev_name    : ge-0/0/1
+       endpoint_2 :
+         - type        : junos_dev
+           vm_name     : p1
+           dev_name    : ge-0/0/1
+
+     - link_name  : p2-pe1
+       endpoint_1 : 
+         - type        : junos_dev
+           vm_name     : p2
+           dev_name    : ge-0/0/2
+       endpoint_2 :
+         - type        : junos_dev
+           vm_name     : pe1
+           dev_name    : ge-0/0/0
+
+     - link_name  : p2-vm3
+       endpoint_1 :
+         - type        : junos_dev
+           vm_name     : p2
+           dev_name    : ge-0/0/3
+       endpoint_2 :
+         - type        : bridge_dev
+           vm_name     : vm3
+           dev_name    : p2-vm3

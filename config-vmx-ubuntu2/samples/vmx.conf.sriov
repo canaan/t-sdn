@@ -1,0 +1,67 @@
+##############################################################
+#
+#  vmx.conf
+#  Config file for vmx on the hypervisor.
+#  Uses YAML syntax. 
+#  Leave a space after ":" to specify the parameter value.
+#
+##############################################################
+
+--- 
+#Configuration on the host side - management interface, VM images etc.
+HOST:
+    identifier                : vmx1   # Maximum 4 characters
+    host-management-interface : eth0
+    routing-engine-image      : "/home/vmx/images/jinstall64-vmx.img"
+    routing-engine-hdd        : "/home/vmx/images/vmxhdd.img"
+    forwarding-engine-image   : "/home/vmx/images/vPFE.img"
+
+---
+#External bridge configuration
+BRIDGES:
+    - type  : external
+      name  : br-ext                  # Max 10 characters
+
+--- 
+#vRE VM parameters
+CONTROL_PLANE:
+    vcpus       : 1
+    memory-mb   : 2048 
+    console_port: 8601
+
+    interfaces  :
+      - type      : static
+        ipaddr    : 10.102.144.94 
+        macaddr   : "0A:00:DD:C0:DE:0E"
+
+--- 
+#vPFE VM parameters
+FORWARDING_PLANE:
+    memory-mb   : 16384 
+    vcpus       : 7
+    console_port: 8602
+    device-type : sriov 
+
+    interfaces  :
+      - type      : static
+        ipaddr    : 10.102.144.98
+        macaddr   : "0A:00:DD:C0:DE:10"
+
+--- 
+#Interfaces
+JUNOS_DEVICES:
+   - interface            : ge-0/0/0
+     port-speed-mbps      : 10000
+     nic                  : int1 
+     mtu                  : 2000             # DO NOT EDIT
+     virtual-function     : 0
+     mac-address          : "02:06:0A:0E:FF:F1"
+     description          : "ge-0/0/0 connects to int1"
+ 
+   - interface            : ge-0/0/1
+     port-speed-mbps      : 10000
+     nic                  : int2
+     mtu                  : 2000             # DO NOT EDIT
+     virtual-function     : 0
+     mac-address          : "02:06:0A:0E:FF:F2"
+     description          : "ge-0/0/0 connects to int2"
