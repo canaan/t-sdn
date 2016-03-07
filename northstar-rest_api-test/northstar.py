@@ -75,7 +75,7 @@ def lsp_search (args) :
         dictdumper (res)
 
 def del_lsp (args) :
-    # del-vbr vtnname vbrname
+    # del-lsp lspIndex 
 	try :
 		(lsp_del, lspIndex) = args 
 	except :
