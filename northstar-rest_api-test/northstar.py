@@ -10,7 +10,7 @@ from copy import deepcopy
 #url = "http://nstar1:8091/NorthStar/API/v1/tenant/1/topology/1/te-lsps"
 urlprefix = "http://nstar1:8091"
 headers = {'content-type': 'application/json'}
-authkey = ('admin', 'admin')
+authkey = ('admin', 'admin') # This user name and password are default setting on NorthStar
 #user = 'admin'
 #passwd = 'admin'
 
