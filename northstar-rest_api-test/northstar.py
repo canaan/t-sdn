@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import sys
-#import argparse
+import argparse
 #import pprint
 import requests
 import json
@@ -70,9 +70,33 @@ def search_lsp (args) :
         except :
                 error_exit ("invalid syntax %s" % ' '.join (args), -1)
 
-        suffix = "/NorthStar/API/v1/tenant/1/topology/1/te-lsps/search?name=%s" % param
+        suffix = "/NorthStar/API/v1/tenant/1/topology/1/te-lsps/search?%s" % param
         res = northstar_api (suffix)
         dictdumper (res)
+
+def search_node (args) :
+        # search_node param
+        try :
+                (search_node, param) = args
+        except :
+                error_exit ("invalid syntax %s" % ' '.join (args), -1)
+
+        suffix = "/NorthStar/API/v1/tenant/1/topology/1/node/search?%s" % param
+        res = northstar_api (suffix)
+        dictdumper (res)
+
+def search_link (args) :
+        # search_link param
+        try :
+                (search_link, param) = args
+        except :
+                error_exit ("invalid syntax %s" % ' '.join (args), -1)
+
+        suffix = "/NorthStar/API/v1/tenant/1/topology/1/link/search?%s" % param
+        res = northstar_api (suffix)
+        dictdumper (res)
+
+
 
 def del_lsp (args) :
 	# del_lsp lspIndex 
@@ -170,13 +194,17 @@ def explicit_lsp(args):
 
 
 def usage ():
+	print "Help: ./northstar.py [command] [option] ....\n"
+	print "The bellow is command and option list."
 	print " get_topology : Get topology with BGP-LS"
-	print " nodes_list : Get nodes list"
-	print " links_list : Get links list"
-	print " lsp_list : Get LSP list"
+	print " nodes_list : Get ALL nodes list"
+	print " links_list : Get ALL links list"
+	print " lsp_list : Get ALL LSP list"
 	print " create_lsp [LSP name] [From] [To] [Bandwidth] : create LSP without explicit route"
 	print " explicit_lsp [LSP name] [From] [To] [Bandwidth] [via] : create LSP with explicit route"
-	print " search_lsp [parameter] : search LSP with parameter (name, ip address and so on?)"
+	print " search_lsp [parameter] : search LSP with parameter (name, from and operStatus.  By default the queryType is an AND, unless queryType is set to OR.)"
+	print " search_link [parameter] : search Node with parameter (name and address.  By default the queryType is an AND, unless queryType is set to OR.)"
+	print " search_node [parameter] : search Link with parameter (name and AS number. By default the queryType is an AND, unless queryType is set to OR.)"
 
 
 def main():
@@ -195,6 +223,8 @@ def main():
 		"create_lsp" : create_lsp,
 		"explicit_lsp": explicit_lsp,
 		"search_lsp": search_lsp,
+		"search_link": search_link,
+		"search_node": search_node,
 		"del_lsp": del_lsp,
 	}
 
