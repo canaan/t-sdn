@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env python
 
 import sys
 #import argparse
@@ -63,10 +63,10 @@ def lsp_list (args) :
 	res = northstar_api (suffix)
 	dictdumper (res)
 
-def lsp_search (args) :
-        # lsp_search param 
+def search_lsp (args) :
+        # search_lsp param 
         try :
-                (lsp_search, param) = args
+                (search_lsp, param) = args
         except :
                 error_exit ("invalid syntax %s" % ' '.join (args), -1)
 
@@ -126,7 +126,7 @@ def create_lsp(args):
 def explicit_lsp(args):
         # explicit_lsp lsp_name From_ipadd To_ipadd BW Via_ipaddr 
         try :
-               	(explicit_lsp, lsp_name, from_ipaddr, to_ipaddr, BW, via_ipaddr) = args
+               	(explicit_lsp, lsp_name, from_ipaddr, to_ipaddr, BW, via_ipaddr1, via_ipaddr2, via_ipaddr3, via_ipaddr4) = args
         except :
                 error_exit ("invalid syntax %s" % ' '.join (args), -1)
 
@@ -147,11 +147,24 @@ def explicit_lsp(args):
 			"holdingPriority": 7,
 			"ero" : [ {
 				"topoObjectType": "ipv4",
-				"address": via_ipaddr,
-				}
+				"address": via_ipaddr1,
+				},
+				{
+                                "topoObjectType": "ipv4",
+                                "address": via_ipaddr2,
+                                },
+				{
+                                "topoObjectType": "ipv4",
+                                "address": via_ipaddr3,
+                                },
+                                {
+                                "topoObjectType": "ipv4",
+                                "address": via_ipaddr4
+                                }
 			]
 		}
 	}
+	print data
         res = northstar_api_post (suffix, data)
         print res
 
@@ -163,7 +176,7 @@ def usage ():
 	print " lsp_list : Get LSP list"
 	print " create_lsp [LSP name] [From] [To] [Bandwidth] : create LSP without explicit route"
 	print " explicit_lsp [LSP name] [From] [To] [Bandwidth] [via] : create LSP with explicit route"
-	print " lsp_search [parameter] : search LSP with parameter (name, ip address and so on?)"
+	print " search_lsp [parameter] : search LSP with parameter (name, ip address and so on?)"
 
 
 def main():
@@ -181,7 +194,7 @@ def main():
 		"lsp_list" : lsp_list,
 		"create_lsp" : create_lsp,
 		"explicit_lsp": explicit_lsp,
-		"lsp_search": lsp_search,
+		"search_lsp": search_lsp,
 		"del_lsp": del_lsp,
 	}
 
